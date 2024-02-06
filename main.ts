@@ -93,6 +93,39 @@ export default class QuickCite extends Plugin {
 			},
 		});
 
+		this.addCommand({
+			id: "generate-bibliography",
+			name: "Generate bibliography based on backlinks on current file",
+			callback: async () => {
+				const file = this.app.workspace.getActiveFile() as TFile;
+				const linkCache =
+					this.app.metadataCache.getFileCache(file)?.links;
+				const filePaths = linkCache?.map((v) => {
+					return (
+						this.settings.referencesFolder + "/" + v.link + ".md"
+					);
+				}) || ["ERRO"];
+				let result: string[] = [];
+				for (let i = 0; i < filePaths.length; i++) {
+					const _file = this.app.vault.getAbstractFileByPath(
+						filePaths[i]
+					) as TFile;
+					await this.app.fileManager.processFrontMatter(
+						_file,
+						(frontmatter) => {
+							result.push(frontmatter.apa);
+						}
+					);
+				}
+				console.log(result);
+
+				this.app.vault.append(
+					file,
+					"## Referências\n\n" + result.join("\n")
+				);
+			},
+		});
+
 		// ==================================
 
 		// This adds a simple command that can be triggered anywhere
