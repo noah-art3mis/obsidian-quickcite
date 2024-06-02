@@ -2,7 +2,7 @@
 
 Cite things quickly.
 
-Uses obsidian's own \[\[backlink|alias\]\] syntax. Supports reference types: `book`, `inbook` (aka chapter) and `article` (aka papers)
+Uses obsidian's own `\[\[backlink|alias\]\]` syntax. Supports reference types: `book`, `inbook` (aka chapter) and `article` (aka papers)
 
 ## Usage
 
